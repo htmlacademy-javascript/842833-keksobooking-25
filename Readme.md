@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Дарья Столярова](https://up.htmlacademy.ru/javascript/25/user/842833).
-* Наставник: `Неизвестно`.
+* Наставник: [Владислав Доровлев](https://htmlacademy.ru/profile/dorovlev).
 
 ---
 
