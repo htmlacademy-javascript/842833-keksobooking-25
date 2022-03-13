@@ -65,4 +65,4 @@ const similarAd = Array.from({
 
 
 // eslint-disable-next-line no-unused-expressions
-console.log(similarAd);
+similarAd;
