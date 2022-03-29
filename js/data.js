@@ -1,6 +1,4 @@
-import {getInteger} from './random.js';
-import {getFractionalNumbers} from './random.js';
-import {getRandomArray} from './random.js';
+import {getInteger, getFractionalNumbers, getRandomArray} from './random.js';
 
 const SIMILAR_AD_COUNT = 10;
 
@@ -8,7 +6,7 @@ const title = ['buying a property', 'property for sale', 'rental property', 'dai
 const features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 const description = ['apartment in a new building', 'with sea views', 'downtown', 'euro repair', 'within walking distance from the metro'];
 const photos = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
-const types = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
+const types = ['flat', 'bungalow', 'house', 'palace', 'hotel'];
 const times = ['12:00', '13:00', '14:00'];
 
 let number = 0;
