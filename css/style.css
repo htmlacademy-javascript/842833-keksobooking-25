@@ -353,6 +353,11 @@ fieldset {
   font-size: 14px;
 }
 
+/* сообщение об ошибке */
+.form__error {
+  color: red;
+}
+
 .ad-form__element--wide {
   -ms-flex-preferred-size: 50%;
       flex-basis: 50%;
