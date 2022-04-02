@@ -1,7 +1,6 @@
 import {similarAd} from './data.js';
 
 const card = document.querySelector('#card').content.querySelector('.popup');
-const map = document.querySelector('.map__canvas');
 
 const analogousAd = similarAd();
 
@@ -34,6 +33,5 @@ analogousAd.forEach ((ad) => {
     photosAd.append(clonePhoto);
   });
   photoAd.remove();
-  map.append(cloneCard);
 });
 
