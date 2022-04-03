@@ -103,3 +103,34 @@ pristine.addValidator(
   validateCapacity,
   capacityErrorMessage
 );
+
+// неактивная и активная
+const fieldsetAdForm = adForm.querySelectorAll('fieldset');
+const mapFormFilters = document.querySelector('.map__filters');
+const selectMapFormFilters = mapFormFilters.querySelectorAll('select');
+
+function notActivePage () {
+  adForm.classList.add('ad-form--disabled');
+  fieldsetAdForm.forEach((element) => {
+    element.setAttribute('disabled', true);
+  });
+  mapFormFilters.classList.add('ad-form--disabled');
+  selectMapFormFilters.forEach((element) => {
+    element.setAttribute('disabled', true);
+  });
+}
+notActivePage();
+
+function activePage () {
+  adForm.classList.remove('ad-form--disabled');
+  fieldsetAdForm.forEach((element) => {
+    element.removeAttribute('disabled');
+  });
+  mapFormFilters.classList.remove('ad-form--disabled');
+  selectMapFormFilters.forEach((element) => {
+    element.removeAttribute('disabled');
+  });
+}
+
+document.addEventListener('DOMContentLoaded', activePage);
+
