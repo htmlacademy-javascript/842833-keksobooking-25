@@ -3,8 +3,10 @@ import {similarAd} from './data.js';
 const card = document.querySelector('#card').content.querySelector('.popup');
 
 const analogousAd = similarAd();
+export {analogousAd};
 
-analogousAd.forEach ((ad) => {
+const createAdCard = (ad) => {
+
   const cloneCard = card.cloneNode(true);
   cloneCard.querySelector('.popup__avatar').src = ad.author.avatar;
   cloneCard.querySelector('.popup__title').textContent = ad.offer.title;
@@ -33,5 +35,10 @@ analogousAd.forEach ((ad) => {
     photosAd.append(clonePhoto);
   });
   photoAd.remove();
-});
+
+  return cloneCard;
+};
+
+export {createAdCard};
+
 

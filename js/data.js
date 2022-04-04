@@ -2,7 +2,7 @@ import {getInteger, getFractionalNumbers, getRandomArray} from './random.js';
 
 const SIMILAR_AD_COUNT = 10;
 
-const title = ['buying a property', 'property for sale', 'rental property', 'daily rental property'];
+const title = ['Hotel Gracery Ginza', 'Hotel Mystays Higashi Ikebukuro', 'Millennium Mitsui Garden Hotel', 'Red Planet Tokyo Asakusa', 'Manga art hotel', 'Khaosan Tokyo Origami'];
 const features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 const description = ['apartment in a new building', 'with sea views', 'downtown', 'euro repair', 'within walking distance from the metro'];
 const photos = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];

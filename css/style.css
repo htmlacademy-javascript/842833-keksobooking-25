@@ -352,6 +352,10 @@ fieldset {
 
   font-size: 14px;
 }
+/* ошибка */
+.form__error {
+  color: red;
+}
 
 .ad-form__element--wide {
   -ms-flex-preferred-size: 50%;
