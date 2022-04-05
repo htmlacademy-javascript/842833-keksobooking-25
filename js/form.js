@@ -1,5 +1,7 @@
 // заголовок
+
 const adForm = document.querySelector('.ad-form');
+export {adForm};
 const input = adForm.querySelector('#title');
 
 const pristine = new Pristine(adForm, {
@@ -24,9 +26,11 @@ adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
   }
 });
-// изменение price
+
+// slider
+
 const priceHousing = adForm.querySelector('#price');
-const housingList = adForm.querySelector('#type');
+const slider = adForm.querySelector('.ad-form__slider');
 const housing = adForm.querySelector('#type');
 const minPrice = {
   'bungalow': 0,
@@ -36,11 +40,46 @@ const minPrice = {
   'palace': 10000
 };
 
-housingList.addEventListener('change', () => {
+noUiSlider.create(slider, {
+  range: {
+    min: 0,
+    max: 100000,
+  },
+  start: 5000,
+  step: 500,
+  connect: 'lower',
+  format: {
+    to: function (value) {
+      return value.toFixed(0);
+    },
+    from: function (value) {
+      return value;
+    },
+  }
+});
+
+housing.addEventListener('change', () => {
   const house = housing.value;
   priceHousing.placeholder = minPrice[house];
   priceHousing.min = minPrice[house];
+  slider.noUiSlider.updateOptions({
+    range: {
+      min: 0,
+      max: 100000,
+    },
+    start: minPrice[house],
+  });
 });
+
+slider.noUiSlider.on('update', () => {
+  priceHousing.value = slider.noUiSlider.get();
+});
+
+priceHousing.addEventListener('change', function () {
+  slider.noUiSlider.set(this.value);
+});
+
+// изменение price
 
 function validatePrice () {
   return priceHousing.value >= minPrice[housing.value];
@@ -57,6 +96,7 @@ pristine.addValidator(
 );
 
 // изменение в поле время выезда
+
 const timein = adForm.querySelector('#timein');
 
 timein.addEventListener('click', () => {
@@ -64,6 +104,7 @@ timein.addEventListener('click', () => {
 });
 
 // изменение количество комнат и мест
+
 const room = adForm.querySelector('#room_number');
 const capacity = adForm.querySelector('#capacity');
 
@@ -105,6 +146,7 @@ pristine.addValidator(
 );
 
 // неактивная и активная
+
 const fieldsetAdForm = adForm.querySelectorAll('fieldset');
 const mapFormFilters = document.querySelector('.map__filters');
 const selectMapFormFilters = mapFormFilters.querySelectorAll('select');
@@ -119,6 +161,7 @@ function notActivePage () {
     element.setAttribute('disabled', true);
   });
 }
+
 notActivePage();
 
 function activePage () {
@@ -132,5 +175,6 @@ function activePage () {
   });
 }
 
-document.addEventListener('DOMContentLoaded', activePage);
+export {activePage};
+
 
