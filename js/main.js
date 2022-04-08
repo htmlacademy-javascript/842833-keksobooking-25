@@ -1,7 +1,15 @@
-import './random.js';
-import {similarAd} from './data.js';
 import './generation.js';
-import './form.js';
-import './map.js';
+import {setAdFormSubmit} from './form.js';
+import {similarAd, adformSubmit} from './map.js';
+import {showAlert} from './util.js';
+import {getData} from './api.js';
 
-similarAd();
+const SIMILAR_AD_COUNT = 10;
+
+getData(
+  (ads) => similarAd(ads.slice(0, SIMILAR_AD_COUNT)),
+  () => showAlert('Не удалось загрузить данные с сервера!'),
+);
+
+setAdFormSubmit(adformSubmit);
+

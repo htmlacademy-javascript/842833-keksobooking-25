@@ -1,7 +1,11 @@
+import {error}  from './util.js';
+import {sendData} from './api.js';
 // заголовок
 
 const adForm = document.querySelector('.ad-form');
-export {adForm};
+const submitButton = adForm.querySelector('.ad-form__submit');
+export {submitButton, adForm};
+
 const input = adForm.querySelector('#title');
 
 const pristine = new Pristine(adForm, {
@@ -19,13 +23,37 @@ pristine.addValidator(
   validateTitle
 );
 
-adForm.addEventListener('submit', (evt) => {
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Публикую...';
+};
 
-  const isValid = pristine.validate();
-  if (!isValid) {
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+};
+
+const setAdFormSubmit = (onSuccess) => {
+  adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-  }
-});
+    const isValid = pristine.validate();
+    if (isValid) {
+      sendData(
+        () => {
+          onSuccess();
+          blockSubmitButton();
+        },
+        () => {
+          error();
+          unblockSubmitButton();
+        },
+        new FormData(evt.target),
+      );
+    }
+  });
+};
+
+export {setAdFormSubmit};
 
 // slider
 
