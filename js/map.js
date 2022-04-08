@@ -1,8 +1,9 @@
 import {adForm, activePage} from './form.js';
-import {analogousAd,createAdCard} from './generation.js';
+import {createAdCard} from './generation.js';
+import {success}  from './util.js';
+
 
 const buttonReset = adForm.querySelector('.ad-form__reset');
-const buttonSubmit = adForm.querySelector('.ad-form__submit');
 const address = adForm.querySelector('#address');
 
 const map = L.map('map-canvas')
@@ -10,9 +11,9 @@ const map = L.map('map-canvas')
     activePage();
   })
   .setView({
-    lat: 35.42000,
-    lng: 139.25300,
-  },8);
+    lat: 35.68950,
+    lng: 139.69171,
+  },12);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -31,8 +32,8 @@ const pinIcon = L.icon({
 
 const oneMarker = L.marker(
   {
-    lat: 35.42000,
-    lng: 139.25300,
+    lat: 35.68950,
+    lng: 139.69171,
   },
   {
     draggable: true,
@@ -40,7 +41,7 @@ const oneMarker = L.marker(
   }
 );
 
-address.value = 'lat: 35.42000, lng: 139.25300';
+address.value = 'lat: 35.68950, lng: 139.69171';
 
 oneMarker.addTo(map);
 
@@ -49,40 +50,60 @@ oneMarker.on('moveend', (evt) => {
   address.value = `lat: ${  latLng.lat.toFixed(5)  }, lng: ${  latLng.lng.toFixed(5)}`;
 });
 
+// создание "обычных" меток и добавление попавов на карту
+
 const icon = L.icon({
   iconUrl: './img/pin.svg',
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 });
 
-// создание "обычных" меток и добавление попавов на карту
+const similarAd = (ads)=> {
 
-analogousAd.forEach((ad) => {
+  ads.forEach((ad) => {
 
-  const {location} = ad;
-  const marker = L.marker(
-    {
-      lat: location.lat,
-      lng: location.lng,
-    },
-    {
-      icon,
-    });
-  marker.addTo(map).bindPopup(createAdCard(ad));
-});
+    const {location} = ad;
+    const marker = L.marker(
+      {
+        lat: location.lat,
+        lng: location.lng,
+      },
+      {
+        icon,
+      });
+    marker.addTo(map).bindPopup(createAdCard(ad));
+  });
+};
+
+export {similarAd};
 
 // возвращение главной метки в исходное положение
 
 buttonReset.addEventListener('click', () => {
   oneMarker.setLatLng({
-    lat: 35.42000,
-    lng: 139.25300,
+    lat: 35.68950,
+    lng: 139.69171,
   });
+  address.value = 'lat: 35.68950, lng: 139.69171';
 });
 
-buttonSubmit.addEventListener('click', () => {
+const adformSubmit = () => {
   oneMarker.setLatLng({
-    lat: 35.42000,
-    lng: 139.25300,
+    lat: 35.68950,
+    lng: 139.69171,
   });
-});
+  address.value = 'lat: 35.42000, lng: 139.25300';
+  adForm.querySelector('#avatar').value = '';
+  adForm.querySelector('#title').value = '';
+  adForm.querySelector('#type').value = 'flat';
+  const checkboxs = adForm.querySelectorAll('input[type="checkbox"]');
+  checkboxs.forEach((checkbox) => {
+    if (checkbox.checked)
+    {checkbox.checked = false;}
+  });
+  adForm.querySelector('#description').value = '';
+  adForm.querySelector('#images').value = '';
+  success();
+};
+
+export {adformSubmit};
