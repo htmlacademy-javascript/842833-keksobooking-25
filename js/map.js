@@ -1,8 +1,9 @@
 import {adForm, activePage} from './form.js';
-import {createAdCard} from './generation.js';
+import {getCreateAdCard} from './generation.js';
 import {success}  from './util.js';
+import {setPriceHousing, setTypeHousing, setRoomsHousing, setGuestsHousing, setFeaturesHousing} from './formFilter.js';
 
-
+// , setFeaturesHousing
 const buttonReset = adForm.querySelector('.ad-form__reset');
 const address = adForm.querySelector('#address');
 
@@ -58,24 +59,35 @@ const icon = L.icon({
   iconAnchor: [20, 40],
 });
 
-const similarAd = (ads)=> {
+const markerGroup = L.layerGroup().addTo(map);
+const SIMILAR_AD_COUNT = 10;
 
-  ads.forEach((ad) => {
+const getSimilarAd = (ads)=> {
+  markerGroup.clearLayers();
 
-    const {location} = ad;
-    const marker = L.marker(
-      {
-        lat: location.lat,
-        lng: location.lng,
-      },
-      {
-        icon,
-      });
-    marker.addTo(map).bindPopup(createAdCard(ad));
-  });
+  ads
+    .filter(setTypeHousing)
+    .filter(setPriceHousing)
+    .filter(setRoomsHousing)
+    .filter(setGuestsHousing)
+    .filter(setFeaturesHousing)
+    .slice(0, SIMILAR_AD_COUNT)
+    .forEach((ad) => {
+
+      const {location} = ad;
+      const marker = L.marker(
+        {
+          lat: location.lat,
+          lng: location.lng,
+        },
+        {
+          icon,
+        });
+      marker.addTo(markerGroup).bindPopup(getCreateAdCard(ad));
+    });
 };
 
-export {similarAd};
+export {getSimilarAd};
 
 // возвращение главной метки в исходное положение
 
