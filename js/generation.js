@@ -1,6 +1,6 @@
 const card = document.querySelector('#card').content.querySelector('.popup');
 
-const createAdCard = (ad) => {
+const getCreateAdCard = (ad) => {
 
   const cloneCard = card.cloneNode(true);
   cloneCard.querySelector('.popup__avatar').src = ad.author.avatar;
@@ -8,14 +8,14 @@ const createAdCard = (ad) => {
   cloneCard.querySelector('.popup__text--address').textContent = ad.offer.address;
   cloneCard.querySelector('.popup__text--price').textContent = `${ad.offer.price  } ₽/ночь`;
 
-  const type = {
+  const types = {
     'bungalow': 'Бунгало',
     'flat': 'Квартира',
     'hotel': 'Отель',
     'house': 'Дом',
     'palace':'Дворец',
   };
-  cloneCard.querySelector('.popup__type').textContent = type[ad.offer.type];
+  cloneCard.querySelector('.popup__type').textContent = types[ad.offer.type];
   cloneCard.querySelector('.popup__text--capacity').textContent = `${ad.offer.rooms  } комнаты для ${  ad.offer.guests  } гостей`;
   cloneCard.querySelector('.popup__text--time').textContent = `Заезд после ${  ad.offer.checkin  }, выезд до ${ ad.offer.checkout}`;
 
@@ -51,6 +51,6 @@ const createAdCard = (ad) => {
   return cloneCard;
 };
 
-export {createAdCard};
+export {getCreateAdCard};
 
 

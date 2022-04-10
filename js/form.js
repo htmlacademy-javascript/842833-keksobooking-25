@@ -28,11 +28,6 @@ const blockSubmitButton = () => {
   submitButton.textContent = 'Публикую...';
 };
 
-const unblockSubmitButton = () => {
-  submitButton.disabled = false;
-  submitButton.textContent = 'Опубликовать';
-};
-
 const setAdFormSubmit = (onSuccess) => {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
@@ -45,7 +40,6 @@ const setAdFormSubmit = (onSuccess) => {
         },
         () => {
           error();
-          unblockSubmitButton();
         },
         new FormData(evt.target),
       );
@@ -179,11 +173,15 @@ const fieldsetAdForm = adForm.querySelectorAll('fieldset');
 const mapFormFilters = document.querySelector('.map__filters');
 const selectMapFormFilters = mapFormFilters.querySelectorAll('select');
 
-function notActivePage () {
+function notActivePage() {
   adForm.classList.add('ad-form--disabled');
   fieldsetAdForm.forEach((element) => {
     element.setAttribute('disabled', true);
   });
+  notActiveFormFilters();
+}
+
+function notActiveFormFilters() {
   mapFormFilters.classList.add('ad-form--disabled');
   selectMapFormFilters.forEach((element) => {
     element.setAttribute('disabled', true);
@@ -192,7 +190,7 @@ function notActivePage () {
 
 notActivePage();
 
-function activePage () {
+function activePage() {
   adForm.classList.remove('ad-form--disabled');
   fieldsetAdForm.forEach((element) => {
     element.removeAttribute('disabled');
@@ -203,6 +201,6 @@ function activePage () {
   });
 }
 
-export {activePage};
+export {activePage, notActiveFormFilters};
 
 

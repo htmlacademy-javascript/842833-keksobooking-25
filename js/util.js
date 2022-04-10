@@ -25,7 +25,7 @@ const isEscapeKey = (evt) => evt.key === 'Escape';
 const success = () => {
   const message = document.querySelector('#success').content.querySelector('.success');
   const cloneMessage = message.cloneNode(true);
-  document.body.appendChild(cloneMessage);
+  document.body.append(cloneMessage);
 
   document.addEventListener('click', closeSuccess);
 
@@ -69,4 +69,12 @@ const error = () => {
     document.removeEventListener ('keydown', closeErrorKey);
   }
 };
-export {showAlert, success, error};
+
+const debounce = (callback, timeoutDelay) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+export {showAlert, success, error, debounce};
