@@ -50,7 +50,7 @@ const setFeaturesHousing = (ad) => {
   };
 
   // проверка на checked
-  const check = () => {
+  const checkChecked = () => {
     let num = 0;
     for (let i = 0; i < housingFeaturesFilterList.length; i++) {
       if (housingFeaturesFilterList[i].checked) {
@@ -59,44 +59,30 @@ const setFeaturesHousing = (ad) => {
     }
     return num ;
   };
-  return check() < 1 || setArrayFeatures() >= 1;
+  return checkChecked() < 1 || setArrayFeatures() >= 1;
 };
 
-const setAdType = (cb) => {
-  housingTypeFilter.addEventListener('change', () => {
+const getNewArrayAds = (ads) => {
+  const newArrayAds = [];
+  for (let i = 0; i < ads.length; i++) {
+    if (setTypeHousing(ads[i]) && setPriceHousing(ads[i]) && setRoomsHousing(ads[i]) &&
+    setGuestsHousing(ads[i]) && setFeaturesHousing(ads[i])) {
+      newArrayAds.push(ads[i]);
+    }
+    if (newArrayAds.length === 10) {
+      break;
+    }
+  }
+  return newArrayAds;
+};
+
+const onElementChange = (cb, element) => {
+  element.addEventListener('change', () => {
     cb();
   }
   );
 };
 
-const setAdPrice = (cb) => {
-  housingPriceFilter.addEventListener('change', () => {
-    cb();
-  }
-  );
-};
-
-const setAdRooms = (cb) => {
-  housingRoomsFilter.addEventListener('change', () => {
-    cb();
-  }
-  );
-};
-
-const setAdGuests = (cb) => {
-  housingGuestsFilter.addEventListener('change', () => {
-    cb();
-  }
-  );
-};
-
-const setAdFeatures = (cb) => {
-  housingFeaturesFilter.addEventListener('change', () => {
-    cb();
-  }
-  );
-};
-
-export {setPriceHousing, setTypeHousing, setRoomsHousing, setGuestsHousing, setFeaturesHousing, setAdType, setAdPrice, setAdRooms, setAdGuests, setAdFeatures};
+export {onElementChange, getNewArrayAds};
 
 

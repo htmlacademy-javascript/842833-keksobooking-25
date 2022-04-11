@@ -1,31 +1,38 @@
 import './generation.js';
-import {setAdFormSubmit, notActiveFormFilters} from './form.js';
-import {getSimilarAd, adformSubmit} from './map.js';
+import {onAdFormSubmit, notActiveFormFilters} from './form.js';
+import {getSimilarAd, adFormSubmit} from './map.js';
 import {showAlert, debounce} from './util.js';
 import {getData} from './api.js';
-import {setAdType, setAdPrice, setAdRooms, setAdGuests, setAdFeatures} from './formFilter.js';
+import {onElementChange} from './formFilter.js';
 import './avatar.js';
 
 const RERENDER_DELAY = 500;
 
+const formFilter = document.querySelector('.map__filters');
+const housingTypeFilter = formFilter.querySelector('#housing-type');
+const housingPriceFilter = formFilter.querySelector('#housing-price');
+const housingRoomsFilter = formFilter.querySelector('#housing-rooms');
+const housingGuestsFilter = formFilter.querySelector('#housing-guests');
+const housingFeaturesFilter = formFilter.querySelector('#housing-features');
+
 getData(
   (ads) => {
     getSimilarAd(ads);
-    setAdType(debounce(
+    onElementChange(debounce(
       () => getSimilarAd(ads),
-      RERENDER_DELAY));
-    setAdPrice(debounce(
+      RERENDER_DELAY), housingTypeFilter);
+    onElementChange(debounce(
       () => getSimilarAd(ads),
-      RERENDER_DELAY));
-    setAdRooms(debounce(
+      RERENDER_DELAY), housingPriceFilter);
+    onElementChange(debounce(
       () => getSimilarAd(ads),
-      RERENDER_DELAY));
-    setAdGuests(debounce(
+      RERENDER_DELAY), housingRoomsFilter);
+    onElementChange(debounce(
       () => getSimilarAd(ads),
-      RERENDER_DELAY));
-    setAdFeatures(debounce(
+      RERENDER_DELAY), housingGuestsFilter);
+    onElementChange(debounce(
       () => getSimilarAd(ads),
-      RERENDER_DELAY));
+      RERENDER_DELAY), housingFeaturesFilter);
   },
   () => {
     showAlert('Не удалось загрузить данные с сервера!');
@@ -33,5 +40,5 @@ getData(
   }
 );
 
-setAdFormSubmit(adformSubmit);
+onAdFormSubmit(adFormSubmit);
 
