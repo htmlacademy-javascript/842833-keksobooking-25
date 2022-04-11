@@ -1,9 +1,8 @@
-import {adForm, activePage} from './form.js';
+import {adForm, activePage, slider} from './form.js';
 import {getCreateAdCard} from './generation.js';
 import {success}  from './util.js';
 import {setPriceHousing, setTypeHousing, setRoomsHousing, setGuestsHousing, setFeaturesHousing} from './formFilter.js';
 
-// , setFeaturesHousing
 const buttonReset = adForm.querySelector('.ad-form__reset');
 const address = adForm.querySelector('#address');
 
@@ -42,13 +41,13 @@ const oneMarker = L.marker(
   }
 );
 
-address.value = 'lat: 35.68950, lng: 139.69171';
+address.value = '35.68950, 139.69171';
 
 oneMarker.addTo(map);
 
 oneMarker.on('moveend', (evt) => {
   const latLng = evt.target.getLatLng();
-  address.value = `lat: ${  latLng.lat.toFixed(5)  }, lng: ${  latLng.lng.toFixed(5)}`;
+  address.value = `${latLng.lat.toFixed(5)  }, ${  latLng.lng.toFixed(5)}`;
 });
 
 // создание "обычных" меток и добавление попавов на карту
@@ -91,23 +90,19 @@ export {getSimilarAd};
 
 // возвращение главной метки в исходное положение
 
-buttonReset.addEventListener('click', () => {
+const getDefault = () => {
   oneMarker.setLatLng({
     lat: 35.68950,
     lng: 139.69171,
   });
-  address.value = 'lat: 35.68950, lng: 139.69171';
-});
-
-const adformSubmit = () => {
-  oneMarker.setLatLng({
-    lat: 35.68950,
-    lng: 139.69171,
-  });
-  address.value = 'lat: 35.42000, lng: 139.25300';
+  address.value = '35.68950,  139.69171';
   adForm.querySelector('#avatar').value = '';
   adForm.querySelector('#title').value = '';
   adForm.querySelector('#type').value = 'flat';
+  adForm.querySelector('#price').min = 1000;
+  slider.noUiSlider.set(1000);
+  adForm.querySelector('#room_number').value = '1';
+  adForm.querySelector('#capacity').value = '1';
   const checkboxs = adForm.querySelectorAll('input[type="checkbox"]');
   checkboxs.forEach((checkbox) => {
     if (checkbox.checked)
@@ -115,6 +110,15 @@ const adformSubmit = () => {
   });
   adForm.querySelector('#description').value = '';
   adForm.querySelector('#images').value = '';
+};
+
+buttonReset.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  getDefault();
+});
+
+const adformSubmit = () => {
+  getDefault();
   success();
 };
 

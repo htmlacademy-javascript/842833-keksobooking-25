@@ -100,6 +100,7 @@ slider.noUiSlider.on('update', () => {
 priceHousing.addEventListener('change', function () {
   slider.noUiSlider.set(this.value);
 });
+export {slider};
 
 // изменение price
 
@@ -120,9 +121,14 @@ pristine.addValidator(
 // изменение в поле время выезда
 
 const timein = adForm.querySelector('#timein');
+const timeout = adForm.querySelector('#timeout');
 
-timein.addEventListener('click', () => {
-  adForm.querySelector('#timeout').value = timein.value;
+timein.addEventListener('change', () => {
+  timeout.value = timein.value;
+});
+
+timeout.addEventListener('change', () => {
+  timein.value = timeout.value;
 });
 
 // изменение количество комнат и мест
@@ -173,13 +179,13 @@ const fieldsetAdForm = adForm.querySelectorAll('fieldset');
 const mapFormFilters = document.querySelector('.map__filters');
 const selectMapFormFilters = mapFormFilters.querySelectorAll('select');
 
-function notActivePage() {
+const notActivePage = () => {
   adForm.classList.add('ad-form--disabled');
   fieldsetAdForm.forEach((element) => {
     element.setAttribute('disabled', true);
   });
   notActiveFormFilters();
-}
+};
 
 function notActiveFormFilters() {
   mapFormFilters.classList.add('ad-form--disabled');
@@ -190,7 +196,7 @@ function notActiveFormFilters() {
 
 notActivePage();
 
-function activePage() {
+const activePage = () => {
   adForm.classList.remove('ad-form--disabled');
   fieldsetAdForm.forEach((element) => {
     element.removeAttribute('disabled');
@@ -199,7 +205,7 @@ function activePage() {
   selectMapFormFilters.forEach((element) => {
     element.removeAttribute('disabled');
   });
-}
+};
 
 export {activePage, notActiveFormFilters};
 

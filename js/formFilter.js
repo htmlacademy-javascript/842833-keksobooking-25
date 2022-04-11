@@ -41,7 +41,7 @@ const setFeaturesHousing = (ad) => {
     let num = 0;
     for (let i = 0; i < arrayFeatures.length; i++) {
       if (ad.offer.features === undefined) {
-        num +=0;
+        return num;
       } else if (ad.offer.features.includes(arrayFeatures[i])) {
         num +=1 ;
       }
