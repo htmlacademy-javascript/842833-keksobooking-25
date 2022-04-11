@@ -1,5 +1,6 @@
 import {error}  from './util.js';
 import {sendData} from './api.js';
+
 // заголовок
 
 const adForm = document.querySelector('.ad-form');
@@ -14,9 +15,7 @@ const pristine = new Pristine(adForm, {
   errorTextClass: 'form__error'
 });
 
-function validateTitle (value) {
-  return value.length > 30 && value.length <= 100;
-}
+const validateTitle = (value) => value.length > 30 && value.length <= 100;
 
 pristine.addValidator(
   input,
@@ -28,7 +27,7 @@ const blockSubmitButton = () => {
   submitButton.textContent = 'Публикую...';
 };
 
-const setAdFormSubmit = (onSuccess) => {
+const onAdFormSubmit = (onSuccess) => {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
@@ -47,7 +46,7 @@ const setAdFormSubmit = (onSuccess) => {
   });
 };
 
-export {setAdFormSubmit};
+export {onAdFormSubmit};
 
 // slider
 
@@ -101,15 +100,13 @@ priceHousing.addEventListener('change', function () {
   slider.noUiSlider.set(this.value);
 });
 
+export {slider};
+
 // изменение price
 
-function validatePrice () {
-  return priceHousing.value >= minPrice[housing.value];
-}
+const validatePrice = () => priceHousing.value >= minPrice[housing.value];
 
-function priceErrorMessage () {
-  return `минимум ${  minPrice[housing.value]}`;
-}
+const priceErrorMessage = () => `минимум ${  minPrice[housing.value]}`;
 
 pristine.addValidator(
   priceHousing,
@@ -120,9 +117,14 @@ pristine.addValidator(
 // изменение в поле время выезда
 
 const timein = adForm.querySelector('#timein');
+const timeout = adForm.querySelector('#timeout');
 
 timein.addEventListener('click', () => {
-  adForm.querySelector('#timeout').value = timein.value;
+  timeout.value = timein.value;
+});
+
+timeout.addEventListener('click', () => {
+  timein.value = timeout.value;
 });
 
 // изменение количество комнат и мест
@@ -153,13 +155,9 @@ room.addEventListener('change', () => {
   capacity.value = capacityOption[room.value].validValues[0];
 });
 
-function validateCapacity (value) {
-  return capacityOption[room.value].validValues.includes(value);
-}
+const validateCapacity = (value) => capacityOption[room.value].validValues.includes(value);
 
-function capacityErrorMessage () {
-  return `"${  capacityOption[room.value].errorText  }"`;
-}
+const capacityErrorMessage = () => `"${  capacityOption[room.value].errorText  }"`;
 
 pristine.addValidator(
   capacity,
@@ -173,24 +171,24 @@ const fieldsetAdForm = adForm.querySelectorAll('fieldset');
 const mapFormFilters = document.querySelector('.map__filters');
 const selectMapFormFilters = mapFormFilters.querySelectorAll('select');
 
-function notActivePage() {
+const notActiveFormFilters = () => {
+  mapFormFilters.classList.add('ad-form--disabled');
+  selectMapFormFilters.forEach((element) => {
+    element.setAttribute('disabled', true);
+  });
+};
+
+const notActivePage = () => {
   adForm.classList.add('ad-form--disabled');
   fieldsetAdForm.forEach((element) => {
     element.setAttribute('disabled', true);
   });
   notActiveFormFilters();
-}
-
-function notActiveFormFilters() {
-  mapFormFilters.classList.add('ad-form--disabled');
-  selectMapFormFilters.forEach((element) => {
-    element.setAttribute('disabled', true);
-  });
-}
+};
 
 notActivePage();
 
-function activePage() {
+const activePage = () => {
   adForm.classList.remove('ad-form--disabled');
   fieldsetAdForm.forEach((element) => {
     element.removeAttribute('disabled');
@@ -199,7 +197,7 @@ function activePage() {
   selectMapFormFilters.forEach((element) => {
     element.removeAttribute('disabled');
   });
-}
+};
 
 export {activePage, notActiveFormFilters};
 

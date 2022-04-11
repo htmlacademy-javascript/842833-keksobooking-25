@@ -52,9 +52,11 @@ const error = () => {
   const cloneMessageErr = messageErr.cloneNode(true);
   document.body.append(cloneMessageErr);
 
-  document.addEventListener ('click', closeError);
-
-  document.addEventListener ('keydown', closeErrorKey);
+  const closeError = () => {
+    document.body.removeChild(cloneMessageErr);
+    document.removeEventListener ('click', closeError);
+    document.removeEventListener ('keydown', closeErrorKey);
+  };
 
   function closeErrorKey(evt) {
     if (isEscapeKey(evt)) {
@@ -63,11 +65,9 @@ const error = () => {
     }
   }
 
-  function closeError() {
-    document.body.removeChild(cloneMessageErr);
-    document.removeEventListener ('click', closeError);
-    document.removeEventListener ('keydown', closeErrorKey);
-  }
+  document.addEventListener ('click', closeError);
+
+  document.addEventListener ('keydown', closeErrorKey);
 };
 
 const debounce = (callback, timeoutDelay) => {
