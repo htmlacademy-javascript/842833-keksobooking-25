@@ -1,5 +1,7 @@
 import {submitButton} from './form.js';
 
+const TIME_SHOW_ALERT = 5000;
+
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = 100;
@@ -18,56 +20,57 @@ const showAlert = (message) => {
 
   setTimeout(() => {
     alertContainer.remove();
-  }, 5000);
+  }, TIME_SHOW_ALERT);
 };
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
-const success = () => {
+const outputSuccess = () => {
   const message = document.querySelector('#success').content.querySelector('.success');
   const cloneMessage = message.cloneNode(true);
   document.body.append(cloneMessage);
 
-  document.addEventListener('click', closeSuccess);
-
-  document.addEventListener('keydown', closeSuccessKey);
-
-  function closeSuccessKey(evt) {
-    if (isEscapeKey(evt)) {
-      evt.preventDefault();
-      closeSuccess();
-    }
-  }
-
-  function closeSuccess() {
+  const onMessageSuccessClick = () => {
     document.body.removeChild(cloneMessage);
     submitButton.disabled = false;
     submitButton.textContent = 'Опубликовать';
-    document.removeEventListener ('click', closeSuccess);
-    document.removeEventListener ('keydown', closeSuccessKey);
+    document.removeEventListener ('click', onMessageSuccessClick);
+    document.removeEventListener ('keydown', onMessageSuccessKeydown);
+  };
+
+  function onMessageSuccessKeydown(evt) {
+    if (isEscapeKey(evt)) {
+      evt.preventDefault();
+      onMessageSuccessClick();
+    }
   }
+  document.addEventListener('click', onMessageSuccessClick);
+
+  document.addEventListener('keydown', onMessageSuccessKeydown);
 };
 
-const error = () => {
+const outputError = () => {
   const messageErr = document.querySelector('#error').content.querySelector('.error');
   const cloneMessageErr = messageErr.cloneNode(true);
   document.body.append(cloneMessageErr);
 
-  const closeError = () => {
+  const onMessageErrorClick = () => {
     document.body.removeChild(cloneMessageErr);
-    document.removeEventListener ('click', closeError);
-    document.removeEventListener ('keydown', closeErrorKey);
+    submitButton.disabled = false;
+    submitButton.textContent = 'Опубликовать';
+    document.removeEventListener ('click', onMessageErrorClick);
+    document.removeEventListener ('keydown', onMessageErrorKeydown);
   };
 
-  function closeErrorKey(evt) {
+  function onMessageErrorKeydown(evt) {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
-      closeError();
+      onMessageErrorClick();
     }
   }
 
-  document.addEventListener ('click', closeError);
+  document.addEventListener ('click', onMessageErrorClick);
 
-  document.addEventListener ('keydown', closeErrorKey);
+  document.addEventListener ('keydown', onMessageErrorKeydown);
 };
 
 const debounce = (callback, timeoutDelay) => {
@@ -77,4 +80,4 @@ const debounce = (callback, timeoutDelay) => {
     timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
   };
 };
-export {showAlert, success, error, debounce};
+export {showAlert, outputSuccess, outputError, debounce};

@@ -1,19 +1,21 @@
-import {adForm, activePage, slider} from './form.js';
+import {adForm, activationPage, slider} from './form.js';
 import {getCreateAdCard} from './generation.js';
-import {success}  from './util.js';
-import {getNewArrayAds} from './formFilter.js';
+import {outputSuccess}  from './util.js';
+import {getNewArrayAds} from './form_filter.js';
 
-// , setFeaturesHousing
+const LAT_CITY_TOKIO = 35.68950;
+const LNG_CITY_TOKIO = 139.69171;
+
 const buttonReset = adForm.querySelector('.ad-form__reset');
 const address = adForm.querySelector('#address');
 
 const map = L.map('map-canvas')
   .on('load', () => {
-    activePage();
+    activationPage();
   })
   .setView({
-    lat: 35.68950,
-    lng: 139.69171,
+    lat: LAT_CITY_TOKIO,
+    lng: LNG_CITY_TOKIO,
   },12);
 
 L.tileLayer(
@@ -33,8 +35,8 @@ const pinIcon = L.icon({
 
 const oneMarker = L.marker(
   {
-    lat: 35.68950,
-    lng: 139.69171,
+    lat: LAT_CITY_TOKIO,
+    lng: LNG_CITY_TOKIO,
   },
   {
     draggable: true,
@@ -42,7 +44,7 @@ const oneMarker = L.marker(
   }
 );
 
-address.value = `${35.68950  }, ${  139.69171}`;
+address.value = `${LAT_CITY_TOKIO  }, ${  LNG_CITY_TOKIO}`;
 
 oneMarker.addTo(map);
 
@@ -86,12 +88,16 @@ export {getSimilarAd};
 
 const getDefault = () => {
   oneMarker.setLatLng({
-    lat: 35.68950,
-    lng: 139.69171,
+    lat: LAT_CITY_TOKIO,
+    lng: LNG_CITY_TOKIO,
   });
-  address.value = `${35.68950  }, ${  139.69171}`;
-  adForm.querySelector('#avatar').value = '';
+  address.value = `${LAT_CITY_TOKIO  }, ${  LNG_CITY_TOKIO}`;
+  adForm.querySelector('.ad-form-header__preview-avatar').src = 'img/muffin-grey.svg';
   adForm.querySelector('#title').value = '';
+  const adFormErrorItem = adForm.querySelectorAll('.form__error');
+  for (let i = 0; i < adFormErrorItem.length; i++) {
+    adFormErrorItem[i].style.display = 'none';
+  }
   adForm.querySelector('#type').value = 'flat';
   slider.noUiSlider.set(1000);
   adForm.querySelector('#room_number').value = '1';
@@ -104,7 +110,13 @@ const getDefault = () => {
     {checkbox.checked = false;}
   });
   adForm.querySelector('#description').value = '';
-  adForm.querySelector('#images').value = '';
+  const photosAd = adForm.querySelector('.ad-form__photo');
+  while (photosAd.firstChild) {
+    photosAd.removeChild(photosAd.firstChild);
+  }
+  if (document.querySelector('.leaflet-popup-close-button')) {
+    document.querySelector('.leaflet-popup-close-button').click();
+  }
 };
 
 buttonReset.addEventListener('click', (evt) => {
@@ -112,9 +124,9 @@ buttonReset.addEventListener('click', (evt) => {
   getDefault();
 });
 
-const adFormSubmit = () => {
+const sendAdForm = () => {
   getDefault();
-  success();
+  outputSuccess();
 };
 
-export {adFormSubmit};
+export {sendAdForm};

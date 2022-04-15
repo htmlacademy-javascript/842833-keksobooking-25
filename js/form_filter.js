@@ -4,7 +4,7 @@ const housingPriceFilter = formFilter.querySelector('#housing-price');
 const housingRoomsFilter = formFilter.querySelector('#housing-rooms');
 const housingGuestsFilter = formFilter.querySelector('#housing-guests');
 const housingFeaturesFilter = formFilter.querySelector('#housing-features');
-const housingFeaturesFilterList = housingFeaturesFilter.getElementsByTagName('input');
+const housingFeaturesFilterList = housingFeaturesFilter.querySelectorAll('input');
 
 const setTypeHousing = (ad) => housingTypeFilter.value === ad.offer.type || housingTypeFilter.value === 'any';
 

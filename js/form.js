@@ -1,4 +1,4 @@
-import {error}  from './util.js';
+import {outputError}  from './util.js';
 import {sendData} from './api.js';
 
 // заголовок
@@ -32,13 +32,13 @@ const onAdFormSubmit = (onSuccess) => {
     evt.preventDefault();
     const isValid = pristine.validate();
     if (isValid) {
+      blockSubmitButton();
       sendData(
         () => {
           onSuccess();
-          blockSubmitButton();
         },
         () => {
-          error();
+          outputError();
         },
         new FormData(evt.target),
       );
@@ -83,13 +83,6 @@ housing.addEventListener('change', () => {
   const house = housing.value;
   priceHousing.placeholder = minPrice[house];
   priceHousing.min = minPrice[house];
-  slider.noUiSlider.updateOptions({
-    range: {
-      min: 0,
-      max: 100000,
-    },
-    start: minPrice[house],
-  });
 });
 
 slider.noUiSlider.on('update', () => {
@@ -100,18 +93,19 @@ priceHousing.addEventListener('change', function () {
   slider.noUiSlider.set(this.value);
 });
 
+
 export {slider};
 
 // изменение price
 
 const validatePrice = () => priceHousing.value >= minPrice[housing.value];
 
-const priceErrorMessage = () => `минимум ${  minPrice[housing.value]}`;
+const outputPriceErrorMessage = () => `минимум ${  minPrice[housing.value]}`;
 
 pristine.addValidator(
   priceHousing,
   validatePrice,
-  priceErrorMessage
+  outputPriceErrorMessage
 );
 
 // изменение в поле время выезда
@@ -151,18 +145,14 @@ const capacityOption = {
   }
 };
 
-room.addEventListener('change', () => {
-  capacity.value = capacityOption[room.value].validValues[0];
-});
-
 const validateCapacity = (value) => capacityOption[room.value].validValues.includes(value);
 
-const capacityErrorMessage = () => `"${  capacityOption[room.value].errorText  }"`;
+const outputCapacityErrorMessage = () => `"${  capacityOption[room.value].errorText  }"`;
 
 pristine.addValidator(
   capacity,
   validateCapacity,
-  capacityErrorMessage
+  outputCapacityErrorMessage
 );
 
 // неактивная и активная
@@ -171,24 +161,24 @@ const fieldsetAdForm = adForm.querySelectorAll('fieldset');
 const mapFormFilters = document.querySelector('.map__filters');
 const selectMapFormFilters = mapFormFilters.querySelectorAll('select');
 
-const notActiveFormFilters = () => {
+const notActivationFormFilters = () => {
   mapFormFilters.classList.add('ad-form--disabled');
   selectMapFormFilters.forEach((element) => {
     element.setAttribute('disabled', true);
   });
 };
 
-const notActivePage = () => {
+const notActivationPage = () => {
   adForm.classList.add('ad-form--disabled');
   fieldsetAdForm.forEach((element) => {
     element.setAttribute('disabled', true);
   });
-  notActiveFormFilters();
+  notActivationFormFilters();
 };
 
-notActivePage();
+notActivationPage();
 
-const activePage = () => {
+const activationPage = () => {
   adForm.classList.remove('ad-form--disabled');
   fieldsetAdForm.forEach((element) => {
     element.removeAttribute('disabled');
@@ -199,6 +189,6 @@ const activePage = () => {
   });
 };
 
-export {activePage, notActiveFormFilters};
+export {activationPage, notActivationFormFilters};
 
 
