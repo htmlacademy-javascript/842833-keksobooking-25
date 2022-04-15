@@ -1,9 +1,9 @@
 import './generation.js';
-import {onAdFormSubmit, notActiveFormFilters} from './form.js';
-import {getSimilarAd, adFormSubmit} from './map.js';
+import {onAdFormSubmit, notActivationFormFilters} from './form.js';
+import {getSimilarAd, sendAdForm} from './map.js';
 import {showAlert, debounce} from './util.js';
 import {getData} from './api.js';
-import {onElementChange} from './formFilter.js';
+import {onElementChange} from './form_filter.js';
 import './avatar.js';
 
 const RERENDER_DELAY = 500;
@@ -36,9 +36,9 @@ getData(
   },
   () => {
     showAlert('Не удалось загрузить данные с сервера!');
-    notActiveFormFilters();
+    notActivationFormFilters();
   }
 );
 
-onAdFormSubmit(adFormSubmit);
+onAdFormSubmit(sendAdForm);
 
