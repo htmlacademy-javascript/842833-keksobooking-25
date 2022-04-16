@@ -1,7 +1,7 @@
-import {adForm, activationPage, slider} from './form.js';
+import {adForm, activatePage, slider} from './form.js';
 import {getCreateAdCard} from './generation.js';
 import {outputSuccess}  from './util.js';
-import {getNewArrayAds} from './form_filter.js';
+import {getNewArrayAds, formFilter} from './form-filter.js';
 
 const LAT_CITY_TOKIO = 35.68950;
 const LNG_CITY_TOKIO = 139.69171;
@@ -11,7 +11,7 @@ const address = adForm.querySelector('#address');
 
 const map = L.map('map-canvas')
   .on('load', () => {
-    activationPage();
+    activatePage();
   })
   .setView({
     lat: LAT_CITY_TOKIO,
@@ -90,6 +90,15 @@ const getDefault = () => {
   oneMarker.setLatLng({
     lat: LAT_CITY_TOKIO,
     lng: LNG_CITY_TOKIO,
+  });
+  formFilter.querySelector('#housing-type').value = 'any';
+  formFilter.querySelector('#housing-price').value = 'any';
+  formFilter.querySelector('#housing-rooms').value = 'any';
+  formFilter.querySelector('#housing-guests').value = 'any';
+  const formFilterCheckboxs = formFilter.querySelectorAll('input[type="checkbox"]');
+  formFilterCheckboxs.forEach((checkbox) => {
+    if (checkbox.checked)
+    {checkbox.checked = false;}
   });
   address.value = `${LAT_CITY_TOKIO  }, ${  LNG_CITY_TOKIO}`;
   adForm.querySelector('.ad-form-header__preview-avatar').src = 'img/muffin-grey.svg';
