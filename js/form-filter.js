@@ -83,6 +83,6 @@ const onElementChange = (cb, element) => {
   );
 };
 
-export {onElementChange, getNewArrayAds};
+export {onElementChange, getNewArrayAds, formFilter};
 
 
